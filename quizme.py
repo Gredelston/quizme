@@ -20,6 +20,8 @@ class QuizEntry(object):
                               substring is also an acceptable response.
 
         """
+        assert prompt
+        assert answer
         self.prompt = prompt
         self.answer = answer
         self.categories = categories.split(';') if categories else []
@@ -80,6 +82,10 @@ def load_quiz_entries(quiz):
             answer = row['answer']
             categories = row['categories']
             other_answers = row['other_answers']
+            if not prompt or not answer:
+                print('Invalid CSV row (must contain prompt and answer):')
+                print(row)
+                sys.exit(1)
             entry = QuizEntry(prompt, answer, categories, other_answers)
             quiz_entries.append(entry)
     return quiz_entries
