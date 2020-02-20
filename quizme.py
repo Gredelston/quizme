@@ -9,6 +9,12 @@ import sys
 
 EXIT_STRINGS = ('q', 'exit')
 
+# Bind raw_input to input, in case of Python 2
+try:
+    input = raw_input
+except NameError:
+    pass
+
 class QuizEntry(object):
     """Data from a single row of the source CSV."""
     def __init__(self, prompt, answer, categories=None, other_answers=None):
@@ -49,7 +55,6 @@ class QuizEntry(object):
 def all_quizzes():
     """Return a list of available quizzes."""
     quizme_dir = os.path.dirname(os.path.abspath(__file__))
-    print(quizme_dir)
     files = os.listdir(quizme_dir)
     files = filter(lambda f: os.path.isfile(os.path.join(quizme_dir, f)), files)
     csvs = filter(lambda f: os.path.splitext(f)[1] == '.csv', files)
@@ -147,7 +152,7 @@ def run_quiz(args):
     while True:
         e = random.choice(entries)
         print('%d/%d # %s' % (score, questions_asked, e.prompt))
-        response = raw_input('> ').strip()
+        response = input('> ').strip()
         if response.lower() in EXIT_STRINGS:
             sys.exit(0)
         elif e.check_answer(response):
