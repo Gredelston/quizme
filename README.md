@@ -38,6 +38,5 @@ Each data set should be a CSV with the following properties:
   * The Muses
   * Olympic host cities
   * National Parks and their states
-  * World capitals
 * Add a `--reverse` mode: given the name of a Best Picture winner, you provide the year
 * Figure out how to display images -- this would allow us to do flags!
