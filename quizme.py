@@ -81,7 +81,7 @@ class QuizGame(object):
             for row in quizreader:
                 prompt = row['prompt']
                 answer = row['answer']
-                categories = row.get('categories', '').lower()
+                categories = row.get('categories', '').lower().replace(' ', '-')
                 other_answers = row.get('other_answers', None)
                 if not prompt or not answer:
                     print('Invalid CSV row (must contain prompt and answer):')
