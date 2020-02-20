@@ -160,6 +160,8 @@ def run_quiz(args, quiz_entries):
             score += 1
         else:
             print('Incorrect. Correct answer was: %s' % e.answer)
+            for other_answer in e.other_answers:
+                print('We also would have accepted: %s' % other_answer)
             incorrect_entry = get_entry_by_answer(quiz_entries, response)
             if incorrect_entry:
                 print('You gave the right answer for %s.' %
