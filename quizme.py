@@ -74,7 +74,8 @@ class QuizGame(object):
     def load_quiz_entries(self):
         """Load the quiz CSV into a list of QuizEntry objects."""
         quizme_dir = os.path.dirname(os.path.abspath(__file__))
-        csv_path = os.path.join(quizme_dir, '%s.csv' % self.quiz)
+        data_dir = os.path.join(quizme_dir, 'data')
+        csv_path = os.path.join(data_dir, '%s.csv' % self.quiz)
         with open(csv_path)as csvfile:
             quizreader = csv.DictReader(csvfile)
             self.entries = []
@@ -175,8 +176,9 @@ class QuizGame(object):
 def all_quizzes():
     """Return a list of available quizzes."""
     quizme_dir = os.path.dirname(os.path.abspath(__file__))
-    files = os.listdir(quizme_dir)
-    files = filter(lambda f: os.path.isfile(os.path.join(quizme_dir, f)), files)
+    data_dir = os.path.join(quizme_dir, 'data')
+    files = os.listdir(data_dir)
+    files = filter(lambda f: os.path.isfile(os.path.join(data_dir, f)), files)
     csvs = filter(lambda f: os.path.splitext(f)[1] == '.csv', files)
     quizzes = map(lambda f: os.path.splitext(f)[0], csvs)
     return list(quizzes)

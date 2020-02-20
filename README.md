@@ -27,7 +27,7 @@ To display all the quiz entries for the Oscar Best Picture winners of the 1950s:
 # Adding data sets
 Each data set should be a CSV with the following properties:
 
-* File should have the .csv extension.
+* File should live in the data/ dir, and have the .csv extension.
 * The first row should be a header containing the following (comma-separated) fieldnames:
   * `prompt`
   * `answer`
