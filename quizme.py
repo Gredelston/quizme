@@ -86,9 +86,11 @@ def display_entries(args):
 
 def load_quiz_entries(quiz):
     """Load the quiz CSV into a list of QuizEntry objects."""
-    quiz_entries = []
-    with open('%s.csv' % quiz)as csvfile:
+    quizme_dir = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(quizme_dir, '%s.csv' % quiz)
+    with open(csv_path)as csvfile:
         quizreader = csv.DictReader(csvfile)
+        quiz_entries = []
         for row in quizreader:
             prompt = row['prompt']
             answer = row['answer']
