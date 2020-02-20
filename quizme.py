@@ -3,6 +3,7 @@
 
 import argparse
 import csv
+import os
 import random
 import sys
 
@@ -45,10 +46,21 @@ class QuizEntry(object):
         return s
 
 
+def all_quizzes():
+    """Return a list of available quizzes."""
+    quizme_dir = os.path.dirname(os.path.abspath(__file__))
+    print(quizme_dir)
+    files = os.listdir(quizme_dir)
+    files = filter(lambda f: os.path.isfile(os.path.join(quizme_dir, f)), files)
+    csvs = filter(lambda f: os.path.splitext(f)[1] == '.csv', files)
+    quizzes = map(lambda f: os.path.splitext(f)[0], csvs)
+    return list(quizzes)
+
+
 def parse_args():
     """Parse command-line args."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('quiz', choices=['best-picture'])
+    parser.add_argument('quiz', choices=all_quizzes())
     parser.add_argument('--category', default=None)
     parser.add_argument('--categories', action='store_true')
     parser.add_argument('--show-data', action='store_true')
