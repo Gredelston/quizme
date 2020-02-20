@@ -63,7 +63,7 @@ class QuizGame(object):
         self.args = args
         self.quiz = args.quiz
         self.load_quiz_entries()
-        self.filter_entries_by_category(args.category)
+        self.filter_entries_by_categories(args.categories)
         if args.show_categories:
             self.display_categories()
             sys.exit(0)
@@ -91,19 +91,22 @@ class QuizGame(object):
                 entry = QuizEntry(prompt, answer, categories, other_answers)
                 self.entries.append(entry)
 
-    def filter_entries_by_category(self, cat):
-        """Return a list of entries that contain the given category."""
-        if not cat:
+    def filter_entries_by_categories(self, cats):
+        """Return a list of entries that contain the given categories."""
+        if not cats:
             return
-        cat = cat.lower()
-        all_categories = self.get_categories()
-        if cat not in all_categories:
-            print('Invalid category: %s' % cat)
-            print('Categories for this quiz: %s' % ', '.join(all_categories))
-            sys.exit(1)
-        self.entries = list(filter(lambda e: cat in e.categories, self.entries))
+        cats = [cat.lower() for cat in cats]
+        all_cats = self.all_categories()
+        for cat in cats:
+            if cat not in all_cats:
+                print('Invalid category: %s' % cat)
+                print('Categories for this quiz: %s' % ', '.join(all_cats))
+                sys.exit(1)
+        self.entries = list(filter(lambda e:
+                any([c in cats for c in e.categories]),
+                self.entries))
 
-    def get_categories(self):
+    def all_categories(self):
         """Return a list of categories in this quiz."""
         categories = []
         for entry in self.entries:
@@ -114,7 +117,7 @@ class QuizGame(object):
 
     def display_categories(self):
         """Display all categories in this quiz."""
-        categories = self.get_categories()
+        categories = self.all_categories()
         if categories:
             print("Valid categories for quiz '%s':" % self.quiz)
             print(', '.join(categories))
@@ -128,8 +131,11 @@ class QuizGame(object):
 
     def run_quiz(self):
         """Main quiz-running function."""
-        print('Quizzing on %s%s' % (self.quiz,
-                (' (%s)' % self.args.category) if self.args.category else ''))
+        print('Quizzing on %s' % self.quiz)
+        if len(self.args.categories) > 1:
+            print('Categories: %s' % ', '.join(self.args.categories))
+        elif len(self.args.categories) == 1:
+            print('Category: %s' % self.args.categories[0])
         print('Respond with %s anytime to quit.' % '/'.join(EXIT_STRINGS))
         print('')
         self.questions_asked = 0
@@ -190,8 +196,8 @@ def parse_args():
             description='Run a flashcard-style quiz on a chosen dataset.')
     parser.add_argument('quiz', choices=all_quizzes(),
             help='The name of the quiz to run')
-    parser.add_argument('category', nargs='?', default=None,
-            help='Filter the quiz down to a category')
+    parser.add_argument('categories', nargs='*', default=None,
+            help='Filter the quiz down by category/ies')
     parser.add_argument('--show-categories', action='store_true',
             help='Display all categories for the selected quiz, and quit')
     parser.add_argument('--show-data', action='store_true',
