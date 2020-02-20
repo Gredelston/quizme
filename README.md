@@ -35,7 +35,6 @@ Each data set should be a CSV with the following properties:
 # Todo
 
 * Add a few more datasets
-  * The Muses
   * Olympic host cities
   * National Parks and their states
 * Add a `--reverse` mode: given the name of a Best Picture winner, you provide the year
