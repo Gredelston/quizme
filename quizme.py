@@ -133,25 +133,32 @@ class QuizGame(object):
         print('')
         self.questions_asked = 0
         self.score = 0
-        while True:
-            e = random.choice(self.entries)
-            print('%d/%d # %s' % (self.score, self.questions_asked, e.prompt))
-            response = input('> ').strip()
-            if response.lower() in EXIT_STRINGS:
-                return
-            elif e.check_answer(response):
-                print('Correct! 😊')
-                self.score += 1
-            else:
-                print('Incorrect. Correct answer was: %s' % e.answer)
-                for other_answer in e.other_answers:
-                    print('We also would have accepted: %s' % other_answer)
-                incorrect_entry = self.get_entry_by_answer(response)
-                if incorrect_entry:
-                    print('You gave the right answer for %s.' %
-                            incorrect_entry.prompt)
-            self.questions_asked += 1
-            print('')
+        if self.args.forced_order:
+            for e in self.entries:
+                self.ask_question(e)
+        else:
+            while True:
+                self.ask_question(random.choice(self.entries))
+
+    def ask_question(self, entry):
+        """Prompt the user, score their answer, and display feedback."""
+        print('%d/%d # %s' % (self.score, self.questions_asked, entry.prompt))
+        response = input('> ').strip()
+        if response.lower() in EXIT_STRINGS:
+            sys.exit(0)
+        elif entry.check_answer(response):
+            print('Correct! 😊')
+            self.score += 1
+        else:
+            print('Incorrect. Correct answer was: %s' % entry.answer)
+            for other_answer in entry.other_answers:
+                print('We also would have accepted: %s' % other_answer)
+            incorrect_entry = self.get_entry_by_answer(response)
+            if incorrect_entry:
+                print('You gave the right answer for %s.' %
+                        incorrect_entry.prompt)
+        self.questions_asked += 1
+        print('')
 
     def get_entry_by_answer(self, answer):
         """Find the quiz entry whose answer is `answer` (else None)."""
@@ -183,6 +190,8 @@ def parse_args():
             help='Display all categories for the selected quiz, and quit')
     parser.add_argument('--show-data', action='store_true',
             help='Display all data for the selected quiz/category, and quit')
+    parser.add_argument('--forced-order', action='store_true',
+            help='Ask each question once, in order')
     return parser.parse_args(sys.argv[1:])
 
 

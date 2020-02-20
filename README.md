@@ -48,7 +48,6 @@ Each data set should be a CSV with the following properties:
   * Ask more frequently about the questions the user isn't very good at (like on Duolingo!)
 * Consolidate other_answers into the answers column
 * Add `--challenge` mode: prompt each answer once
-* Add `--forced-order` mode: prompt each answer in order
 
 # Other misc notes
 
