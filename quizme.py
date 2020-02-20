@@ -64,11 +64,16 @@ def all_quizzes():
 
 def parse_args():
     """Parse command-line args."""
-    parser = argparse.ArgumentParser()
-    parser.add_argument('quiz', choices=all_quizzes())
-    parser.add_argument('--category', default=None)
-    parser.add_argument('--show-categories', action='store_true')
-    parser.add_argument('--show-data', action='store_true')
+    parser = argparse.ArgumentParser(
+            description='Run a flashcard-style quiz on a chosen dataset.')
+    parser.add_argument('quiz', choices=all_quizzes(),
+            help='The name of the quiz to run')
+    parser.add_argument('--category', default=None,
+            help='Filter the quiz down to a category')
+    parser.add_argument('--show-categories', action='store_true',
+            help='Display all categories for the selected quiz, and quit')
+    parser.add_argument('--show-data', action='store_true',
+            help='Display all data for the selected quiz/category, and quit')
     return parser.parse_args(sys.argv[1:])
 
 
