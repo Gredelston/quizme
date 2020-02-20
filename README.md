@@ -40,6 +40,8 @@ Each data set should be a CSV with the following properties:
   * National Parks and their states
 * Add a `--reverse` mode: given the name of a Best Picture winner, you provide the year
 * Figure out how to display images -- this would allow us to do flags!
+* Log stats about user's performance (and .gitignore them)
+  * Ask more frequently about the questions the user isn't very good at (like on Duolingo!)
 
 # Other misc notes
 
