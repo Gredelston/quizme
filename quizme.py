@@ -113,8 +113,11 @@ class QuizGame(object):
     def display_categories(self):
         """Display all categories in this quiz."""
         categories = self.get_categories()
-        print("Valid categories for quiz '%s':" % self.quiz)
-        print(', '.join(categories))
+        if categories:
+            print("Valid categories for quiz '%s':" % self.quiz)
+            print(', '.join(categories))
+        else:
+            print("There are no categories for quiz '%s'." % self.quiz)
 
     def display_entries(self):
         """Display all the entries in this quiz."""
