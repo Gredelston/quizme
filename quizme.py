@@ -155,7 +155,7 @@ def run_quiz(args, quiz_entries):
             score += 1
         else:
             print('Incorrect. Correct answer was: %s' % e.answer)
-            incorrect_entry = get_entry_by_answer(entries, response)
+            incorrect_entry = get_entry_by_answer(quiz_entries, response)
             if incorrect_entry:
                 print('You gave the right answer for %s.' %
                         incorrect_entry.prompt)
