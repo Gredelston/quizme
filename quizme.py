@@ -100,8 +100,8 @@ def load_quiz_entries(quiz):
         for row in quizreader:
             prompt = row['prompt']
             answer = row['answer']
-            categories = row['categories']
-            other_answers = row['other_answers']
+            categories = row.get('categories', None)
+            other_answers = row.get('other_answers', None)
             if not prompt or not answer:
                 print('Invalid CSV row (must contain prompt and answer):')
                 print(row)
