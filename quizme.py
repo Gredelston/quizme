@@ -72,21 +72,17 @@ def parse_args():
     return parser.parse_args(sys.argv[1:])
 
 
-def display_categories(quiz_name):
-    """Given just the quiz name, display categories and quit."""
-    quiz_entries = load_quiz_entries(quiz_name)
+def display_categories(args, quiz_entries):
+    """Given a list of quiz_entries, display all categories."""
     categories = get_categories(quiz_entries)
-    print("Valid categories for quiz '%s':" % quiz_name)
+    print("Valid categories for quiz '%s':" % args.quiz)
     print(', '.join(categories))
-    sys.exit(0)
 
 
-def display_entries(args):
-    entries = load_quiz_entries(args.quiz)
-    entries = filter_entries_by_category(entries, args.category)
-    for e in entries:
+def display_entries(quiz_entries):
+    """Given a list of quiz_entries, display them all."""
+    for e in quiz_entries:
         print(e)
-    sys.exit(0)
 
 
 def load_quiz_entries(quiz):
@@ -95,7 +91,7 @@ def load_quiz_entries(quiz):
     csv_path = os.path.join(quizme_dir, '%s.csv' % quiz)
     with open(csv_path)as csvfile:
         quizreader = csv.DictReader(csvfile)
-        quiz_entries = []
+        entries = []
         for row in quizreader:
             prompt = row['prompt']
             answer = row['answer']
@@ -106,8 +102,20 @@ def load_quiz_entries(quiz):
                 print(row)
                 sys.exit(1)
             entry = QuizEntry(prompt, answer, categories, other_answers)
-            quiz_entries.append(entry)
-    return quiz_entries
+            entries.append(entry)
+    return entries
+
+
+def filter_entries_by_category(entries, cat):
+    """Return a list of entries that contain the given category."""
+    if not cat:
+        return entries
+    all_categories = get_categories(entries)
+    if cat not in all_categories:
+        print('Invalid category: %s' % cat)
+        print('Categories for this quiz: %s' % ', '.join(all_categories))
+        sys.exit(1)
+    return list(filter(lambda entry: cat in entry.categories, entries))
 
 
 def get_entry_by_answer(entries, answer):
@@ -128,21 +136,8 @@ def get_categories(quiz_entries):
     return categories
 
 
-def filter_entries_by_category(entries, cat):
-    """Return a list of entries that contain the given category."""
-    all_categories = get_categories(entries)
-    if cat not in all_categories:
-        print('Invalid category: %s' % cat)
-        print('Categories for this quiz: %s' % ', '.join(all_categories))
-        sys.exit(1)
-    return list(filter(lambda entry: cat in entry.categories, entries))
-
-
-def run_quiz(args):
+def run_quiz(args, quiz_entries):
     """Main quiz-running function."""
-    entries = load_quiz_entries(args.quiz)
-    if args.category:
-        entries = filter_entries_by_category(entries, args.category)
     print('Quizzing on %s%s' % (args.quiz,
             (' (%s)' % args.category) if args.category else ''))
     print('Respond with %s anytime to quit.' % '/'.join(EXIT_STRINGS))
@@ -171,12 +166,15 @@ def run_quiz(args):
 def main():
     """Main program function."""
     args = parse_args()
+    quiz_entries = load_quiz_entries(args.quiz)
     if args.categories:
-        display_categories(args.quiz)
-    elif args.show_data:
-        display_entries(args)
-    else:
-        run_quiz(args)
+        display_categories(args, quiz_entries)
+        sys.exit(0)
+    quiz_entries = filter_entries_by_category(quiz_entries, args.category)
+    if args.show_data:
+        display_entries(quiz_entries)
+        sys.exit(0)
+    run_quiz(args, quiz_entries)
 
 if __name__ == '__main__':
     main()
