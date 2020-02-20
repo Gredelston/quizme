@@ -81,7 +81,7 @@ class QuizGame(object):
             for row in quizreader:
                 prompt = row['prompt']
                 answer = row['answer']
-                categories = row.get('categories', None)
+                categories = row.get('categories', '').lower()
                 other_answers = row.get('other_answers', None)
                 if not prompt or not answer:
                     print('Invalid CSV row (must contain prompt and answer):')
@@ -94,6 +94,7 @@ class QuizGame(object):
         """Return a list of entries that contain the given category."""
         if not cat:
             return
+        cat = cat.lower()
         all_categories = self.get_categories()
         if cat not in all_categories:
             print('Invalid category: %s' % cat)
@@ -106,8 +107,8 @@ class QuizGame(object):
         categories = []
         for entry in self.entries:
             for category in entry.categories:
-                if category not in categories:
-                    categories.append(category)
+                if category.lower() not in categories:
+                    categories.append(category.lower())
         return categories
 
     def display_categories(self):
