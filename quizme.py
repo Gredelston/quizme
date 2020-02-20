@@ -136,6 +136,10 @@ class QuizGame(object):
         if self.args.forced_order:
             for e in self.entries:
                 self.ask_question(e)
+        elif self.args.challenge:
+            random.shuffle(self.entries)
+            for e in self.entries:
+                self.ask_question(e)
         else:
             while True:
                 self.ask_question(random.choice(self.entries))
@@ -190,6 +194,8 @@ def parse_args():
             help='Display all categories for the selected quiz, and quit')
     parser.add_argument('--show-data', action='store_true',
             help='Display all data for the selected quiz/category, and quit')
+    parser.add_argument('--challenge', action='store_true',
+            help='Ask each question once, randomly shuffled')
     parser.add_argument('--forced-order', action='store_true',
             help='Ask each question once, in order')
     return parser.parse_args(sys.argv[1:])

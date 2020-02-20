@@ -47,7 +47,6 @@ Each data set should be a CSV with the following properties:
 * Log stats about user's performance (and .gitignore them)
   * Ask more frequently about the questions the user isn't very good at (like on Duolingo!)
 * Consolidate other_answers into the answers column
-* Add `--challenge` mode: prompt each answer once
 
 # Other misc notes
 
