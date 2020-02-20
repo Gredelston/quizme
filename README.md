@@ -42,10 +42,13 @@ Each data set should be a CSV with the following properties:
   * Olympic host cities
   * National Parks and their states
 * Add a `--reverse` mode: given the name of a Best Picture winner, you provide the year
+  * How would this interface with, say, Olympic host cities, where Athens has hosted in 1896 and 2004? Ditto World Capitals, where both Israel and Palestine claim Jerusalem?
 * Figure out how to display images -- this would allow us to do flags!
 * Log stats about user's performance (and .gitignore them)
   * Ask more frequently about the questions the user isn't very good at (like on Duolingo!)
 * Consolidate other_answers into the answers column
+* Add `--challenge` mode: prompt each answer once
+* Add `--forced-order` mode: prompt each answer in order
 
 # Other misc notes
 
