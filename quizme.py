@@ -68,7 +68,7 @@ def parse_args():
             description='Run a flashcard-style quiz on a chosen dataset.')
     parser.add_argument('quiz', choices=all_quizzes(),
             help='The name of the quiz to run')
-    parser.add_argument('--category', default=None,
+    parser.add_argument('category', nargs='?', default=None,
             help='Filter the quiz down to a category')
     parser.add_argument('--show-categories', action='store_true',
             help='Display all categories for the selected quiz, and quit')

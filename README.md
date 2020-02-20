@@ -12,13 +12,17 @@ To run a quiz on Oscar Best Picture winners:
 
 ```> python quizme.py best-picture```
 
+To run a quiz on Oscar Best Picture winners of the 1950s:
+
+```> python quizme.py best-picture 1950s```
+
 To display a list of categories for the best-picture quiz:
 
 ```> python quizme.py best-picture --show-categories```
 
-To run a quiz on Oscar Best Picture winners of the 1950s:
+To display all the quiz entries for the Oscar Best Picture winners of the 1950s:
 
-```> python quizme.py best-picture --category 1950s```
+```> python quizme.py best-picture 1950s --show-categories```
 
 # Adding data sets
 Each data set should be a CSV with the following properties:
