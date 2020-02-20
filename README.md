@@ -42,6 +42,7 @@ Each data set should be a CSV with the following properties:
 * Figure out how to display images -- this would allow us to do flags!
 * Log stats about user's performance (and .gitignore them)
   * Ask more frequently about the questions the user isn't very good at (like on Duolingo!)
+* Consolidate other_answers into the answers column
 
 # Other misc notes
 
