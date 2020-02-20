@@ -67,7 +67,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('quiz', choices=all_quizzes())
     parser.add_argument('--category', default=None)
-    parser.add_argument('--categories', action='store_true')
+    parser.add_argument('--show-categories', action='store_true')
     parser.add_argument('--show-data', action='store_true')
     return parser.parse_args(sys.argv[1:])
 
@@ -167,7 +167,7 @@ def main():
     """Main program function."""
     args = parse_args()
     quiz_entries = load_quiz_entries(args.quiz)
-    if args.categories:
+    if args.show_categories:
         display_categories(args, quiz_entries)
         sys.exit(0)
     quiz_entries = filter_entries_by_category(quiz_entries, args.category)

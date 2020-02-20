@@ -14,7 +14,7 @@ To run a quiz on Oscar Best Picture winners:
 
 To display a list of categories for the best-picture quiz:
 
-```> python quizme.py best-picture --categories```
+```> python quizme.py best-picture --show-categories```
 
 To run a quiz on Oscar Best Picture winners of the 1950s:
 
