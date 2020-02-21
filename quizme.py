@@ -6,6 +6,7 @@ import csv
 import os
 import random
 import sys
+import time
 
 EXIT_STRINGS = ('q', 'exit')
 
@@ -140,13 +141,18 @@ class QuizGame(object):
         print('')
         self.questions_asked = 0
         self.score = 0
-        if self.args.forced_order:
+        if self.args.forced_order or self.args.challenge:
+            if self.args.challenge:
+                random.shuffle(self.entries)
+            print('You will be asked %d questions.' % len(self.entries))
+            print('Time starts now.')
+            print()
+            start_time = time.time()
             for e in self.entries:
                 self.ask_question(e)
-        elif self.args.challenge:
-            random.shuffle(self.entries)
-            for e in self.entries:
-                self.ask_question(e)
+            elapsed_time = time.time() - start_time
+            pct_score = round(float(self.score) / self.questions_asked, 2) * 100
+            print('You scored %d%% in %d seconds.' % (pct_score, elapsed_time))
         else:
             while True:
                 self.ask_question(random.choice(self.entries))
