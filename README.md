@@ -46,7 +46,6 @@ Each data set should be a CSV with the following properties:
 * Log stats about user's performance (and .gitignore them)
   * Ask more frequently about the questions the user isn't very good at (like on Duolingo!)
 * Consolidate other_answers into the answers column
-* When you provide an incorrect answer that would have been correct for multiple other answers, the game should tell you *all* the others, not just the first one.
 
 # Other misc notes
 

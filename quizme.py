@@ -170,19 +170,19 @@ class QuizGame(object):
             print('Incorrect. Correct answer was: %s' % entry.answer)
             for other_answer in entry.other_answers:
                 print('We also would have accepted: %s' % other_answer)
-            incorrect_entry = self.get_entry_by_answer(response)
-            if incorrect_entry:
-                print('You gave the right answer for %s.' %
-                        incorrect_entry.prompt)
+            incorrect_prompts = self.get_prompts_by_answer(response)
+            if incorrect_prompts:
+                print('You gave the right answer for %s.' % incorrect_prompts)
         self.questions_asked += 1
         print('')
 
-    def get_entry_by_answer(self, answer):
-        """Find the quiz entry whose answer is `answer` (else None)."""
+    def get_prompts_by_answer(self, answer):
+        """Return a '/'-delimited list of prompts whose answer is `answer`."""
+        prompts = []
         for entry in self.entries:
             if entry.check_answer(answer):
-                return entry
-        return None
+                prompts.append(entry.prompt)
+        return '/'.join(prompts)
 
 
 def all_quizzes():
