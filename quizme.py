@@ -172,17 +172,17 @@ class QuizGame(object):
                 print('We also would have accepted: %s' % other_answer)
             incorrect_prompts = self.get_prompts_by_answer(response)
             if incorrect_prompts:
-                print('You gave the right answer for %s.' % incorrect_prompts)
+                print('You gave the right answer for: %s.' % incorrect_prompts)
         self.questions_asked += 1
         print('')
 
     def get_prompts_by_answer(self, answer):
-        """Return a '/'-delimited list of prompts whose answer is `answer`."""
+        """Build a '; '-delimited string of prompts whose answer is `answer`."""
         prompts = []
         for entry in self.entries:
             if entry.check_answer(answer):
                 prompts.append(entry.prompt)
-        return '/'.join(prompts)
+        return '; '.join(prompts)
 
 
 def all_quizzes():
