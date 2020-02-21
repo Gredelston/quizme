@@ -12,17 +12,17 @@ To run a quiz on Oscar Best Picture winners:
 
 ```> python quizme.py best-picture```
 
-To run a quiz on Oscar Best Picture winners of the 1950s:
+To run a quiz on Oscar Best Picture winners of the 1950s and 1960s:
 
-```> python quizme.py best-picture 1950s```
+```> python quizme.py best-picture 1950s 1960s```
+
+To run a challenge for world capitals in South America: that is, see each question exactly once:
+
+```> python quizme.py world-capitals south-america --challenge```
 
 To display a list of categories for the best-picture quiz:
 
 ```> python quizme.py best-picture --show-categories```
-
-To display all the quiz entries for the Oscar Best Picture winners of the 1950s:
-
-```> python quizme.py best-picture 1950s --show-categories```
 
 # Adding data sets
 Each data set should be a CSV with the following properties:
@@ -39,7 +39,6 @@ Each data set should be a CSV with the following properties:
 # Todo
 
 * Add a few more datasets
-  * Olympic host cities
   * National Parks and their states
 * Add a `--reverse` mode: given the name of a Best Picture winner, you provide the year
   * How would this interface with, say, Olympic host cities, where Athens has hosted in 1896 and 2004? Ditto World Capitals, where both Israel and Palestine claim Jerusalem?
@@ -47,6 +46,7 @@ Each data set should be a CSV with the following properties:
 * Log stats about user's performance (and .gitignore them)
   * Ask more frequently about the questions the user isn't very good at (like on Duolingo!)
 * Consolidate other_answers into the answers column
+* When you provide an incorrect answer that would have been correct for multiple other answers, the game should tell you *all* the others, not just the first one.
 
 # Other misc notes
 
