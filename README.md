@@ -40,6 +40,8 @@ Each data set should be a CSV with the following properties:
 
 * Add a few more datasets
   * National Parks and their states
+  * Big Four sports teams by city
+  * Big Four stadium names
 * Add a `--reverse` mode: given the name of a Best Picture winner, you provide the year
   * How would this interface with, say, Olympic host cities, where Athens has hosted in 1896 and 2004? Ditto World Capitals, where both Israel and Palestine claim Jerusalem?
 * Figure out how to display images -- this would allow us to do flags!
