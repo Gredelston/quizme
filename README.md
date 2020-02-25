@@ -6,23 +6,23 @@ I wrote this doohickey to help me memorize certain datasets. Maybe you'll use it
 
 To view usage instructions:
 
-```> python quizme.py --help```
+```> python main.py --help```
 
 To run a quiz on Oscar Best Picture winners:
 
-```> python quizme.py best-picture```
+```> python main.py best-picture```
 
 To run a quiz on Oscar Best Picture winners of the 1950s and 1960s:
 
-```> python quizme.py best-picture 1950s 1960s```
+```> python main.py best-picture 1950s 1960s```
 
 To run a challenge for world capitals in South America: that is, see each question exactly once:
 
-```> python quizme.py world-capitals south-america --challenge```
+```> python main.py world-capitals south-america --challenge```
 
 To display a list of categories for the best-picture quiz:
 
-```> python quizme.py best-picture --show-categories```
+```> python main.py best-picture --show-categories```
 
 # Adding data sets
 Each data set should be a CSV with the following properties:
