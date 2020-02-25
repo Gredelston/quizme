@@ -182,7 +182,8 @@ class QuizGame(object):
     def _incorrect(self, user_input):
         """Process an incorrect answer, and trickle down to the interface."""
         quiz_entry = self.active_entry
-        feedback = 'Incorrect. Correct answer was: %s' % quiz_entry.answer
+        feedback = 'Incorrect.'
+        feedback += '\nThe correct answer was: %s' % quiz_entry.answer
         for other_answer in quiz_entry.other_answers:
             feedback += '\nWe also would have accepted: %s' % other_answer
         other_prompts = self.get_prompts_by_answer(user_input)
