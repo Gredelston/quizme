@@ -7,14 +7,21 @@ class GameUI:
         self.master = master
         master.title('QuizMe')
 
-        self.label = tk.Label(master, text='This is my first GUI!')
-        self.label.pack()
+        self.prompt_label = tk.Label(master, text='Prompt will go here.')
+        self.prompt_label.pack()
 
-        self.greet_button = tk.Button(master, text='Greet', command=self.greet)
-        self.greet_button.pack()
+        self.answer_entry = tk.Entry(master)
+        self.answer_entry.pack()
+
+        self.answer_button = tk.Button(master, text='Submit',
+                command=self.submit_answer)
+        self.answer_button.pack()
 
         self.close_button = tk.Button(master, text='Close', command=master.quit)
         self.close_button.pack()
+
+    def submit_answer(self):
+        print('Answer: %s' % self.answer_entry.get())
 
     def greet(self):
         print('Greetings!')
