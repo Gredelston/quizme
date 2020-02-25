@@ -12,6 +12,7 @@ class QuizGUI:
 
         self.root = tk.Tk()
         self.root.title('QuizMe!')
+        self.root.geometry('640x480')
 
         self.top_text = tk.StringVar()
         self.top_label = tk.Label(self.root, textvariable=self.top_text)

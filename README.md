@@ -46,7 +46,6 @@ Each data set should be a CSV with the following properties:
   * Make it prettier
     * Fonts!
     * Icon!
-    * Make the window not resize all the time!
 * Add a few more datasets
   * National Parks and their states
   * Big Four sports teams by city
