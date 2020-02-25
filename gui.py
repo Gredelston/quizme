@@ -50,6 +50,7 @@ class QuizGUI:
 
     def submit_answer(self, event=None):
         answer = self.answer_entry.get()
+        self.answer_entry.delete(0, 'end')
         self._quiz_game.process_input(answer)
 
     def start_quiz(self):
