@@ -34,7 +34,7 @@ class QuizGUI:
         self.feedback_label.pack()
 
         self.close_button = tk.Button(self.root, text='Close',
-                command=self.end_quiz)
+                command=self.exit)
         self.close_button.pack()
 
     def start_quiz(self):
@@ -61,4 +61,10 @@ class QuizGUI:
         self.root.mainloop()
 
     def end_quiz(self):
+        self.answer_entry.config(state='disabled')
+        self.answer_button.config(state='disabled')
+        self.prompt_text.set('')
+
+    def exit(self):
+        """End the program immediately."""
         self.root.quit()

@@ -43,11 +43,8 @@ class QuizCLI(object):
         print(message)
 
     def end_quiz(self):
-        """Report to the user that their quiz has ended."""
-        pct_score = 100 * round(float(
-                self._quiz_game.score) / self._quiz_game.questions_asked, 2)
-        print('\nYou scored %d%% in %d seconds.' % (
-                pct_score, self._quiz_game.elapsed_time))
+        """Process the end of the quiz."""
+        pass
 
     def exit(self, return_code=0):
         """Quit the program immediately."""
