@@ -7,10 +7,12 @@ class GameUI:
         self.root = tk.Tk()
         self.root.title('QuizMe!')
 
-        self.top_label = tk.Label(self.root, text='Sample quiz, yo.')
+        self.top_text = tk.StringVar()
+        self.top_label = tk.Label(self.root, textvariable=self.top_text)
         self.top_label.pack()
 
-        self.prompt_label = tk.Label(self.root, text='> Capital of Botswana')
+        self.prompt_text = tk.StringVar()
+        self.prompt_label = tk.Label(self.root, textvariable=self.prompt_text)
         self.prompt_label.pack()
 
         self.answer_entry = tk.Entry(self.root)
@@ -29,6 +31,12 @@ class GameUI:
         self.close_button = tk.Button(self.root, text='Close',
                 command=self.root.quit)
         self.close_button.pack()
+
+    def set_prompt(self, text):
+        self.prompt_text.set(text)
+
+    def set_top_text(self, text):
+        self.top_text.set(text)
 
     def submit_answer(self, event=None):
         answer = self.answer_entry.get()

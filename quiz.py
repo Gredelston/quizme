@@ -142,6 +142,8 @@ class QuizGame(object):
     def run_gui_quiz(self):
         """Main loop for a graphical user interface quiz."""
         self.gui = gui.GameUI()
+        self.gui.set_top_text(self.quiz)
+        self.gui.set_prompt(self.entries[0].prompt)
         self.gui.mainloop()
 
     def run_cli_quiz(self):
