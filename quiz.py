@@ -137,6 +137,8 @@ class QuizGame(object):
             print('Categories: %s' % ', '.join(self.args.categories))
         elif len(self.args.categories) == 1:
             print('Category: %s' % self.args.categories[0])
+        if self.args.gui:
+            print('Normally this is where we would load the GUI.')
         print('Respond with %s anytime to quit.' % '/'.join(EXIT_STRINGS))
         print('')
         self.questions_asked = 0
