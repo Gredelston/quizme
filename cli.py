@@ -29,8 +29,7 @@ class QuizCLI(object):
 
     def prompt_user(self):
         """Collect user input, and pass control back to the QuizGame."""
-        print('')
-        print('%d/%d # %s' % (
+        print('(%d/%d) %s' % (
                 self._quiz_game.score, self._quiz_game.questions_asked,
                 self._quiz_game.active_entry.prompt))
         response = input('> ').strip()
@@ -40,7 +39,7 @@ class QuizCLI(object):
 
     def provide_feedback(self, message):
         """Provide feedback to the user."""
-        print(message)
+        print(message + '\n')
 
     def end_quiz(self):
         """Process the end of the quiz."""

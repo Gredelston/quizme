@@ -50,7 +50,9 @@ class QuizGUI:
     
     def prompt_user(self):
         """Ask the user a quiz question"""
-        self.prompt_text.set('> %s' % self._quiz_game.active_entry.prompt)
+        self.prompt_text.set('(%d/%d) %s' % (
+                self._quiz_game.score, self._quiz_game.questions_asked,
+                self._quiz_game.active_entry.prompt))
 
     def provide_feedback(self, message):
         """Send a message to the user"""
