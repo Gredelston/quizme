@@ -22,14 +22,17 @@ class QuizGUI:
         self.prompt_label = tk.Label(self.root, textvariable=self.prompt_text)
         self.prompt_label.pack()
 
-        self.answer_entry = tk.Entry(self.root)
+        self.answer_frame = tk.Frame(self.root)
+        self.answer_frame.pack()
+
+        self.answer_entry = tk.Entry(self.answer_frame)
         self.answer_entry.bind('<Return>', self.submit_answer)
         self.answer_entry.focus()
-        self.answer_entry.pack()
+        self.answer_entry.pack(side=tk.LEFT)
 
-        self.answer_button = tk.Button(self.root, text='Submit',
+        self.answer_button = tk.Button(self.answer_frame, text='Submit',
                 command=self.submit_answer)
-        self.answer_button.pack()
+        self.answer_button.pack(side=tk.RIGHT)
 
         self.feedback_text = tk.StringVar()
         self.feedback_label = tk.Label(self.root,
