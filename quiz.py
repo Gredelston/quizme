@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import argparse
 import csv
@@ -8,15 +7,8 @@ import random
 import sys
 import time
 
+import cli
 import gui
-
-EXIT_STRINGS = ('q', 'exit')
-
-# Bind raw_input to input, in case of Python 2
-try:
-    input = raw_input
-except NameError:
-    pass
 
 
 class QuizEntry(object):
@@ -132,65 +124,67 @@ class QuizGame(object):
         for e in self.entries:
             print(e)
 
-    def run_quiz(self):
+    def start_quiz(self):
         """Start running the quiz, either through CLI or GUI."""
         if self.args.gui:
-            self.run_gui_quiz()
+            self._interface = gui.QuizGUI(self)
         else:
-            self.run_cli_quiz()
-
-    def run_gui_quiz(self):
-        """Main loop for a graphical user interface quiz."""
-        self.gui = gui.GameUI()
-        self.gui.set_top_text(self.quiz)
-        self.gui.set_prompt(self.entries[0].prompt)
-        self.gui.mainloop()
-
-    def run_cli_quiz(self):
-        """Main loop for a command-line quiz.""" 
-        print('Quizzing on %s' % self.quiz)
-        if len(self.args.categories) > 1:
-            print('Categories: %s' % ', '.join(self.args.categories))
-        elif len(self.args.categories) == 1:
-            print('Category: %s' % self.args.categories[0])
-        print('Respond with %s anytime to quit.' % '/'.join(EXIT_STRINGS))
-        print('')
+            self._interface = cli.QuizCLI(self)
         self.questions_asked = 0
         self.score = 0
-        if self.args.forced_order or self.args.challenge:
-            if self.args.challenge:
-                random.shuffle(self.entries)
-            print('You will be asked %d questions.' % len(self.entries))
-            print('Time starts now.')
-            print()
-            start_time = time.time()
-            for e in self.entries:
-                self.ask_question(e)
-            elapsed_time = time.time() - start_time
-            pct_score = round(float(self.score) / self.questions_asked, 2) * 100
-            print('You scored %d%% in %d seconds.' % (pct_score, elapsed_time))
-        else:
-            while True:
-                self.ask_question(random.choice(self.entries))
+        self.ask_each_question_once = bool(
+                self.args.forced_order or self.args.challenge)
+        if not self.args.forced_order:
+            random.shuffle(self.entries)
+        self._start_time = time.time()
+        self._interface.start_quiz()
 
-    def ask_question(self, entry):
-        """Prompt the user, score their answer, and display feedback."""
-        print('%d/%d # %s' % (self.score, self.questions_asked, entry.prompt))
-        response = input('> ').strip()
-        if response.lower() in EXIT_STRINGS:
-            sys.exit(0)
-        elif entry.check_answer(response):
-            print('Correct! 😊')
-            self.score += 1
+    def next_question(self):
+        """
+        Ask the next question.
+
+        After we call self._interface.wait_for_input(), we expect that
+        control should eventually be passed to self.process_input(),
+        once the user has provided input.
+
+        """
+        if self.ask_each_question_once:
+            self.active_entry = self.entries.pop(0)
         else:
-            print('Incorrect. Correct answer was: %s' % entry.answer)
-            for other_answer in entry.other_answers:
-                print('We also would have accepted: %s' % other_answer)
-            incorrect_prompts = self.get_prompts_by_answer(response)
-            if incorrect_prompts:
-                print('You gave the right answer for: %s.' % incorrect_prompts)
+            self.active_entry = random.choice(self.entries)
+        self._interface.wait_for_input()
+    
+    def process_input(self, user_input):
+        """
+        Provide feedback on the user's input.
+
+        If more questions remain, ask more questions.
+        Otherwise, end the quiz.
+
+        """
+        assert self.active_entry is not None
+        if self.active_entry.check_answer(user_input):
+            self._correct()
+        else:
+            self._incorrect(user_input)
         self.questions_asked += 1
-        print('')
+        if len(self.entries):
+            self.next_question()
+        else:
+            self.end_quiz()
+
+    def _correct(self):
+        """Process a correct answer, and trickle down to the interface."""
+        self.score += 1
+        self._interface.correct()
+
+    def _incorrect(self, user_input):
+        """Process an incorrect answer, and trickle down to the interface."""
+        self._interface.incorrect(self.active_entry, user_input)
+
+    def end_quiz(self):
+        self.elapsed_time = time.time() - self._start_time
+        self._interface.end_quiz()
 
     def get_prompts_by_answer(self, answer):
         """Build a '; '-delimited string of prompts whose answer is `answer`."""

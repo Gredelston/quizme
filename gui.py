@@ -3,7 +3,9 @@
 import tkinter as tk
 
 class GameUI:
-    def __init__(self):
+    def __init__(self, quiz_game):
+        self._quiz_game = quiz_game
+
         self.root = tk.Tk()
         self.root.title('QuizMe!')
 
@@ -49,5 +51,7 @@ class GameUI:
     def greet(self):
         print('Greetings!')
 
-    def mainloop(self):
+    def start_quiz(self):
+        self.set_top_text(self._quiz_game.quiz)
+        self.set_prompt(self._quiz_game.entries[0].prompt)
         self.root.mainloop()
