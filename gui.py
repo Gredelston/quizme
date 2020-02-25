@@ -5,7 +5,7 @@ import tkinter as tk
 class GameUI:
     def __init__(self, master):
         self.master = master
-        master.title('QuizMe')
+        master.title('QuizMe!')
 
         self.prompt_label = tk.Label(master, text='Prompt will go here.')
         self.prompt_label.pack()
