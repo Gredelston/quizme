@@ -4,7 +4,9 @@
 import tkinter as tk
 
 class QuizGUI:
+    """Graphical user interface to the quiz."""
     def __init__(self, quiz_game):
+        """Set up UI elements"""
         self._quiz_game = quiz_game
         self.mainloop_running = False
 
@@ -43,17 +45,21 @@ class QuizGUI:
                 self._quiz_game.quiz_name_with_categories())
     
     def prompt_user(self):
+        """Ask the user a quiz question"""
         self.prompt_text.set('> %s' % self._quiz_game.active_entry.prompt)
 
     def provide_feedback(self, message):
+        """Send a message to the user"""
         self.feedback_text.set(message)
 
     def submit_answer(self, event=None):
+        """When the user presses Submit, send their input to the QuizGame"""
         answer = self.answer_entry.get()
         self.answer_entry.delete(0, 'end')
         self._quiz_game.process_input(answer)
 
     def start_quiz(self):
+        """Start the quiz, and wait for user input"""
         self.top_text.set(self._quiz_game.quiz)
         self.prompt_text.set(self._quiz_game.entries[0].prompt)
         self.mainloop_running = True
@@ -61,6 +67,7 @@ class QuizGUI:
         self.root.mainloop()
 
     def end_quiz(self):
+        """Wait patiently for the user to close the quiz"""
         self.answer_entry.config(state='disabled')
         self.answer_button.config(state='disabled')
         self.prompt_text.set('')
