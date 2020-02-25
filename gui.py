@@ -11,6 +11,7 @@ class GameUI:
         self.prompt_label.pack()
 
         self.answer_entry = tk.Entry(master)
+        self.answer_entry.bind('<Return>', self.submit_answer)
         self.answer_entry.pack()
 
         self.answer_button = tk.Button(master, text='Submit',
@@ -20,7 +21,7 @@ class GameUI:
         self.close_button = tk.Button(master, text='Close', command=master.quit)
         self.close_button.pack()
 
-    def submit_answer(self):
+    def submit_answer(self, event=None):
         print('Answer: %s' % self.answer_entry.get())
 
     def greet(self):
