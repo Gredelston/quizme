@@ -71,6 +71,7 @@ class QuizGUI:
         self.answer_entry.config(state='disabled')
         self.answer_button.config(state='disabled')
         self.prompt_text.set('')
+        self.answer_entry.unbind('<Return>')
 
     def exit(self):
         """End the program immediately."""
