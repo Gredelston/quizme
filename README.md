@@ -38,13 +38,21 @@ Each data set should be a CSV with the following properties:
 
 # Todo
 
+* Polish off the GUI
+  * Add the ability to load a data-set after the program has already begun
+  * Add the ability to set category filters, probably via a popup
+  * Add the ability to set --forced-order or --ask-each-question-once
+  * Add a way to display images, which would allow us to do a flags quiz
+  * Make it prettier
+    * Fonts!
+    * Icon!
+    * Make the window not resize all the time!
 * Add a few more datasets
   * National Parks and their states
   * Big Four sports teams by city
   * Big Four stadium names
 * Add a `--reverse` mode: given the name of a Best Picture winner, you provide the year
   * How would this interface with, say, Olympic host cities, where Athens has hosted in 1896 and 2004? Ditto World Capitals, where both Israel and Palestine claim Jerusalem?
-* Figure out how to display images -- this would allow us to do flags!
 * Log stats about user's performance (and .gitignore them)
   * Ask more frequently about the questions the user isn't very good at (like on Duolingo!)
 * Consolidate other_answers into the answers column
