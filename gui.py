@@ -21,6 +21,7 @@ class QuizGUI:
 
         self.answer_entry = tk.Entry(self.root)
         self.answer_entry.bind('<Return>', self.submit_answer)
+        self.answer_entry.focus()
         self.answer_entry.pack()
 
         self.answer_button = tk.Button(self.root, text='Submit',
