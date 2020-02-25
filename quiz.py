@@ -8,6 +8,8 @@ import random
 import sys
 import time
 
+import gui
+
 EXIT_STRINGS = ('q', 'exit')
 
 # Bind raw_input to input, in case of Python 2
@@ -131,14 +133,24 @@ class QuizGame(object):
             print(e)
 
     def run_quiz(self):
-        """Main quiz-running function."""
+        """Start running the quiz, either through CLI or GUI."""
+        if self.args.gui:
+            self.run_gui_quiz()
+        else:
+            self.run_cli_quiz()
+
+    def run_gui_quiz(self):
+        """Main loop for a graphical user interface quiz."""
+        self.gui = gui.GameUI()
+        self.gui.mainloop()
+
+    def run_cli_quiz(self):
+        """Main loop for a command-line quiz.""" 
         print('Quizzing on %s' % self.quiz)
         if len(self.args.categories) > 1:
             print('Categories: %s' % ', '.join(self.args.categories))
         elif len(self.args.categories) == 1:
             print('Category: %s' % self.args.categories[0])
-        if self.args.gui:
-            print('Normally this is where we would load the GUI.')
         print('Respond with %s anytime to quit.' % '/'.join(EXIT_STRINGS))
         print('')
         self.questions_asked = 0
