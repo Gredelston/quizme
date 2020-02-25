@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import tkinter as tk
 
-class GameUI:
+class QuizGUI:
     def __init__(self, quiz_game):
         self._quiz_game = quiz_game
+        self.mainloop_running = False
 
         self.root = tk.Tk()
         self.root.title('QuizMe!')
@@ -31,27 +33,30 @@ class GameUI:
         self.feedback_label.pack()
 
         self.close_button = tk.Button(self.root, text='Close',
-                command=self.root.quit)
+                command=self.end_quiz)
         self.close_button.pack()
 
-    def set_prompt(self, text):
-        self.prompt_text.set(text)
+    def start_quiz(self):
+        """Show the user that the quiz has started."""
+        self.top_text.set('Quizzing on %s' %
+                self._quiz_game.quiz_name_with_categories())
+    
+    def prompt_user(self):
+        self.prompt_text.set('> %s' % self._quiz_game.active_entry.prompt)
 
-    def set_top_text(self, text):
-        self.top_text.set(text)
+    def provide_feedback(self, message):
+        self.feedback_text.set(message)
 
     def submit_answer(self, event=None):
         answer = self.answer_entry.get()
-        print('Submitted answer: %s' % answer)
-        if answer.lower() == 'gaborone':
-            self.feedback_text.set('Correct!')
-        else:
-            self.feedback_text.set('Incorrect. The correct answer was: Gaborone')
-
-    def greet(self):
-        print('Greetings!')
+        self._quiz_game.process_input(answer)
 
     def start_quiz(self):
-        self.set_top_text(self._quiz_game.quiz)
-        self.set_prompt(self._quiz_game.entries[0].prompt)
+        self.top_text.set(self._quiz_game.quiz)
+        self.prompt_text.set(self._quiz_game.entries[0].prompt)
+        self.mainloop_running = True
+        self._quiz_game.next_question()
         self.root.mainloop()
+
+    def end_quiz(self):
+        self.root.quit()

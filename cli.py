@@ -18,11 +18,8 @@ class QuizCLI(object):
         self._quiz_game = quiz_game
 
     def start_quiz(self):
-        print('Quizzing on %s' % self._quiz_game.quiz)
-        if len(self._quiz_game.args.categories) > 1:
-            print('Categories: %s' % ', '.join(self._quiz_game.args.categories))
-        elif len(self._quiz_game.args.categories) == 1:
-            print('Category: %s' % self._quiz_game.args.categories[0])
+        """Show the user that the quiz has started."""
+        print('Quizzing on %s' % self._quiz_game.quiz_name_with_categories())
         print('Respond with %s anytime to quit.' % '/'.join(EXIT_STRINGS))
         if self._quiz_game.ask_each_question_once:
             print('You will be asked %d questions.' %
@@ -30,7 +27,7 @@ class QuizCLI(object):
             print('Time starts now.')
         self._quiz_game.next_question()
 
-    def wait_for_input(self):
+    def prompt_user(self):
         """Collect user input, and pass control back to the QuizGame."""
         print('')
         print('%d/%d # %s' % (
@@ -41,18 +38,9 @@ class QuizCLI(object):
             self.exit()
         self._quiz_game.process_input(response)
 
-    def correct(self):
-        """Provide feedback for a correct answer."""
-        print('Correct! 😊')
-
-    def incorrect(self, quiz_entry, user_input):
-        """Provide feedback for an incorrect answer."""
-        print('Incorrect. Correct answer was: %s' % quiz_entry.answer)
-        for other_answer in quiz_entry.other_answers:
-            print('We also would have accepted: %s' % other_answer)
-        incorrect_prompts = self._quiz_game.get_prompts_by_answer(user_input)
-        if incorrect_prompts:
-            print('You gave the right answer for: %s.' % incorrect_prompts)
+    def provide_feedback(self, message):
+        """Provide feedback to the user."""
+        print(message)
 
     def end_quiz(self):
         """Report to the user that their quiz has ended."""

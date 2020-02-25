@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import argparse
 import csv
@@ -143,7 +144,7 @@ class QuizGame(object):
         """
         Ask the next question.
 
-        After we call self._interface.wait_for_input(), we expect that
+        After we call self._interface.prompt_user(), we expect that
         control should eventually be passed to self.process_input(),
         once the user has provided input.
 
@@ -152,7 +153,7 @@ class QuizGame(object):
             self.active_entry = self.entries.pop(0)
         else:
             self.active_entry = random.choice(self.entries)
-        self._interface.wait_for_input()
+        self._interface.prompt_user()
     
     def process_input(self, user_input):
         """
@@ -176,11 +177,18 @@ class QuizGame(object):
     def _correct(self):
         """Process a correct answer, and trickle down to the interface."""
         self.score += 1
-        self._interface.correct()
+        self._interface.provide_feedback('Correct!')
 
     def _incorrect(self, user_input):
         """Process an incorrect answer, and trickle down to the interface."""
-        self._interface.incorrect(self.active_entry, user_input)
+        quiz_entry = self.active_entry
+        feedback = 'Incorrect. Correct answer was: %s' % quiz_entry.answer
+        for other_answer in quiz_entry.other_answers:
+            feedback += '\nWe also would have accepted: %s' % other_answer
+        other_prompts = self.get_prompts_by_answer(user_input)
+        if other_prompts:
+            feedback += '\nYou gave the right answer for: %s.' % other_prompts
+        self._interface.provide_feedback(feedback)
 
     def end_quiz(self):
         self.elapsed_time = time.time() - self._start_time
@@ -193,6 +201,12 @@ class QuizGame(object):
             if entry.check_answer(answer):
                 prompts.append(entry.prompt)
         return '; '.join(prompts)
+    
+    def quiz_name_with_categories(self):
+        if self.args.categories:
+            return '%s (%s)' % (self.quiz, ', '.join(self.args.categories))
+        else:
+            return self.quiz
 
 
 def all_quizzes():
