@@ -8,13 +8,8 @@ import random
 import sys
 import time
 
-EXIT_STRINGS = ('q', 'exit')
-
-# Bind raw_input to input, in case of Python 2
-try:
-    input = raw_input
-except NameError:
-    pass
+import cli
+import gui
 
 
 class QuizEntry(object):
@@ -130,51 +125,74 @@ class QuizGame(object):
         for e in self.entries:
             print(e)
 
-    def run_quiz(self):
-        """Main quiz-running function."""
-        print('Quizzing on %s' % self.quiz)
-        if len(self.args.categories) > 1:
-            print('Categories: %s' % ', '.join(self.args.categories))
-        elif len(self.args.categories) == 1:
-            print('Category: %s' % self.args.categories[0])
-        print('Respond with %s anytime to quit.' % '/'.join(EXIT_STRINGS))
-        print('')
+    def start_quiz(self):
+        """Start running the quiz, either through CLI or GUI."""
+        if self.args.gui:
+            self._interface = gui.QuizGUI(self)
+        else:
+            self._interface = cli.QuizCLI(self)
         self.questions_asked = 0
         self.score = 0
-        if self.args.forced_order or self.args.challenge:
-            if self.args.challenge:
-                random.shuffle(self.entries)
-            print('You will be asked %d questions.' % len(self.entries))
-            print('Time starts now.')
-            print()
-            start_time = time.time()
-            for e in self.entries:
-                self.ask_question(e)
-            elapsed_time = time.time() - start_time
-            pct_score = round(float(self.score) / self.questions_asked, 2) * 100
-            print('You scored %d%% in %d seconds.' % (pct_score, elapsed_time))
-        else:
-            while True:
-                self.ask_question(random.choice(self.entries))
+        self.ask_each_question_once = bool(
+                self.args.forced_order or self.args.challenge)
+        if not self.args.forced_order:
+            random.shuffle(self.entries)
+        self._start_time = time.time()
+        self._interface.start_quiz()
 
-    def ask_question(self, entry):
-        """Prompt the user, score their answer, and display feedback."""
-        print('%d/%d # %s' % (self.score, self.questions_asked, entry.prompt))
-        response = input('> ').strip()
-        if response.lower() in EXIT_STRINGS:
-            sys.exit(0)
-        elif entry.check_answer(response):
-            print('Correct! 😊')
-            self.score += 1
+    def next_question(self):
+        """
+        Ask the next question.
+
+        After we call self._interface.prompt_user(), we expect that
+        control should eventually be passed to self.process_input(),
+        once the user has provided input.
+
+        """
+        if self.ask_each_question_once:
+            self.active_entry = self.entries.pop(0)
         else:
-            print('Incorrect. Correct answer was: %s' % entry.answer)
-            for other_answer in entry.other_answers:
-                print('We also would have accepted: %s' % other_answer)
-            incorrect_prompts = self.get_prompts_by_answer(response)
-            if incorrect_prompts:
-                print('You gave the right answer for: %s.' % incorrect_prompts)
+            self.active_entry = random.choice(self.entries)
+        self._interface.prompt_user()
+    
+    def process_input(self, user_input):
+        """
+        Provide feedback on the user's input.
+
+        If more questions remain, ask more questions.
+        Otherwise, end the quiz.
+
+        """
+        assert self.active_entry is not None
+        if self.active_entry.check_answer(user_input):
+            self._correct()
+        else:
+            self._incorrect(user_input)
         self.questions_asked += 1
-        print('')
+        if len(self.entries):
+            self.next_question()
+        else:
+            self.end_quiz()
+
+    def _correct(self):
+        """Process a correct answer, and trickle down to the interface."""
+        self.score += 1
+        self._interface.provide_feedback('Correct!')
+
+    def _incorrect(self, user_input):
+        """Process an incorrect answer, and trickle down to the interface."""
+        quiz_entry = self.active_entry
+        feedback = 'Incorrect. Correct answer was: %s' % quiz_entry.answer
+        for other_answer in quiz_entry.other_answers:
+            feedback += '\nWe also would have accepted: %s' % other_answer
+        other_prompts = self.get_prompts_by_answer(user_input)
+        if other_prompts:
+            feedback += '\nYou gave the right answer for: %s.' % other_prompts
+        self._interface.provide_feedback(feedback)
+
+    def end_quiz(self):
+        self.elapsed_time = time.time() - self._start_time
+        self._interface.end_quiz()
 
     def get_prompts_by_answer(self, answer):
         """Build a '; '-delimited string of prompts whose answer is `answer`."""
@@ -183,6 +201,12 @@ class QuizGame(object):
             if entry.check_answer(answer):
                 prompts.append(entry.prompt)
         return '; '.join(prompts)
+    
+    def quiz_name_with_categories(self):
+        if self.args.categories:
+            return '%s (%s)' % (self.quiz, ', '.join(self.args.categories))
+        else:
+            return self.quiz
 
 
 def all_quizzes():
@@ -194,32 +218,3 @@ def all_quizzes():
     csvs = filter(lambda f: os.path.splitext(f)[1] == '.csv', files)
     quizzes = map(lambda f: os.path.splitext(f)[0], csvs)
     return list(quizzes)
-
-
-def parse_args():
-    """Parse command-line args."""
-    parser = argparse.ArgumentParser(
-            description='Run a flashcard-style quiz on a chosen dataset.')
-    parser.add_argument('quiz', choices=all_quizzes(),
-            help='The name of the quiz to run')
-    parser.add_argument('categories', nargs='*', default=None,
-            help='Filter the quiz down by category/ies')
-    parser.add_argument('--show-categories', action='store_true',
-            help='Display all categories for the selected quiz, and quit')
-    parser.add_argument('--show-data', action='store_true',
-            help='Display all data for the selected quiz/category, and quit')
-    parser.add_argument('--challenge', action='store_true',
-            help='Ask each question once, randomly shuffled')
-    parser.add_argument('--forced-order', action='store_true',
-            help='Ask each question once, in order')
-    return parser.parse_args(sys.argv[1:])
-
-
-def main():
-    """Main program function."""
-    args = parse_args()
-    quiz_game = QuizGame(args)
-    quiz_game.run_quiz()
-
-if __name__ == '__main__':
-    main()
