@@ -211,7 +211,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>'org.python'</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#copy">copy</a>
+    <a href="#pickle">pickle</a>
  &#8226;   <a href="#xml.sax">xml.sax</a>
 
   </div>
@@ -1546,8 +1546,8 @@ imported by:
   <a target="code" href="/usr/lib/python3.7/copy.py" type="text/plain"><tt>copy</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#'org.python'">'org.python'</a>
- &#8226;   <a href="#copyreg">copyreg</a>
+    <a href="#copyreg">copyreg</a>
+ &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#weakref">weakref</a>
 
@@ -4809,6 +4809,23 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="fs_utils"></a>
+  <a target="code" href="/home/gredelston/dev/quizme/src/fs_utils.py" type="text/plain"><tt>fs_utils</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#os">os</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#gui">gui</a>
+ &#8226;   <a href="#quiz">quiz</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="ftplib"></a>
   <a target="code" href="/usr/lib/python3.7/ftplib.py" type="text/plain"><tt>ftplib</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -5016,7 +5033,8 @@ imported by:
   <a target="code" href="/home/gredelston/dev/quizme/src/gui.py" type="text/plain"><tt>gui</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#tkinter">tkinter</a>
+    <a href="#fs_utils">fs_utils</a>
+ &#8226;   <a href="#tkinter">tkinter</a>
  &#8226;   <a href="#tkinter.filedialog">tkinter.filedialog</a>
 
   </div>
@@ -5834,7 +5852,7 @@ imported by:
   <a target="code" href="" type="text/plain"><tt>org</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
-    <a href="#pickle">pickle</a>
+    <a href="#copy">copy</a>
 
   </div>
 
@@ -5867,6 +5885,7 @@ imported by:
  &#8226;   <a href="#doctest">doctest</a>
  &#8226;   <a href="#email.utils">email.utils</a>
  &#8226;   <a href="#fnmatch">fnmatch</a>
+ &#8226;   <a href="#fs_utils">fs_utils</a>
  &#8226;   <a href="#genericpath">genericpath</a>
  &#8226;   <a href="#getopt">getopt</a>
  &#8226;   <a href="#getpass">getpass</a>
@@ -5958,7 +5977,8 @@ imported by:
   <a target="code" href="/usr/lib/python3.7/pickle.py" type="text/plain"><tt>pickle</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#_compat_pickle">_compat_pickle</a>
+    <a href="#'org.python'">'org.python'</a>
+ &#8226;   <a href="#_compat_pickle">_compat_pickle</a>
  &#8226;   <a href="#_pickle">_pickle</a>
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#codecs">codecs</a>
@@ -5967,7 +5987,6 @@ imports:
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#itertools">itertools</a>
- &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#struct">struct</a>
@@ -6284,6 +6303,7 @@ imports:
     <a href="#argparse">argparse</a>
  &#8226;   <a href="#cli">cli</a>
  &#8226;   <a href="#csv">csv</a>
+ &#8226;   <a href="#fs_utils">fs_utils</a>
  &#8226;   <a href="#gui">gui</a>
  &#8226;   <a href="#os">os</a>
  &#8226;   <a href="#random">random</a>

@@ -4,6 +4,8 @@
 import tkinter as tk
 from tkinter import filedialog
 
+import fs_utils
+
 class QuizGUI:
     """Graphical user interface to the quiz."""
     def __init__(self, quiz_game):
@@ -56,7 +58,7 @@ class QuizGUI:
             self.root.mainloop()
 
     def open_data_loader(self):
-        filename = filedialog.askopenfilename(initialdir='./data/',
+        filename = filedialog.askopenfilename(initialdir=fs_utils.data_dir(),
                 title='Select a valid CSV', filetypes=(('CSV files', '*.csv'),))
         print(filename)
     
