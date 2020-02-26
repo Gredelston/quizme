@@ -83,6 +83,9 @@ class QuizGUI:
         self.top_text.set('Quizzing on %s' %
                 self._quiz_game.quiz_name_with_categories())
         self.prompt_text.set(self._quiz_game.entries[0].prompt)
+        self.answer_entry.config(state='normal')
+        self.answer_button.config(state='normal')
+        self.answer_entry.bind('<Return>', self.submit_answer)
         self.mainloop_running = True
         self._quiz_game.next_question()
         self.root.mainloop()
