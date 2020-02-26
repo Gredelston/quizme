@@ -58,14 +58,19 @@ class QuizGame(object):
         """
         self.args = args
         self.quiz = args.quiz
-        self.load_quiz_entries()
-        self.filter_entries_by_categories(args.categories)
-        if args.show_categories:
-            self.display_categories()
-            sys.exit(0)
-        if args.show_data:
-            self.display_entries()
-            sys.exit(0)
+        if self.quiz:
+            self.load_quiz_entries()
+            self.filter_entries_by_categories(args.categories)
+            if args.show_categories:
+                self.display_categories()
+                sys.exit(0)
+            if args.show_data:
+                self.display_entries()
+                sys.exit(0)
+        if self.args.cli:
+            self._interface = cli.QuizCLI(self)
+        else:
+            self._interface = gui.QuizGUI(self)
 
     def load_quiz_entries(self):
         """Load the quiz CSV into a list of QuizEntry objects."""
@@ -131,10 +136,6 @@ class QuizGame(object):
 
     def start_quiz(self):
         """Start running the quiz, either through CLI or GUI."""
-        if self.args.cli:
-            self._interface = cli.QuizCLI(self)
-        else:
-            self._interface = gui.QuizGUI(self)
         self.questions_asked = 0
         self.score = 0
         self.ask_each_question_once = bool(

@@ -11,7 +11,7 @@ def parse_args():
     """Parse command-line args."""
     parser = argparse.ArgumentParser(
             description='Run a flashcard-style quiz on a chosen dataset.')
-    parser.add_argument('quiz', choices=quiz.all_quizzes(),
+    parser.add_argument('quiz', choices=quiz.all_quizzes(), nargs='?',
             help='The name of the quiz to run')
     parser.add_argument('categories', nargs='*', default=None,
             help='Filter the quiz down by category/ies')
@@ -31,7 +31,8 @@ def main():
     """Main program function."""
     args = parse_args()
     quiz_game = quiz.QuizGame(args)
-    quiz_game.start_quiz()
+    if quiz_game.quiz:
+        quiz_game.start_quiz()
 
 if __name__ == '__main__':
     main()

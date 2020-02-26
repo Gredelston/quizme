@@ -43,10 +43,12 @@ class QuizGUI:
                 command=self.exit)
         self.close_button.pack()
 
-    def start_quiz(self):
-        """Show the user that the quiz has started."""
-        self.top_text.set('Quizzing on %s' %
-                self._quiz_game.quiz_name_with_categories())
+        if not self._quiz_game.quiz:
+            self.end_quiz('')
+            self.root.mainloop()
+
+    def open_data_loader(self):
+        pass
     
     def prompt_user(self):
         """Ask the user a quiz question"""
@@ -66,7 +68,8 @@ class QuizGUI:
 
     def start_quiz(self):
         """Start the quiz, and wait for user input"""
-        self.top_text.set(self._quiz_game.quiz)
+        self.top_text.set('Quizzing on %s' %
+                self._quiz_game.quiz_name_with_categories())
         self.prompt_text.set(self._quiz_game.entries[0].prompt)
         self.mainloop_running = True
         self._quiz_game.next_question()
