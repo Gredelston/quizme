@@ -53,14 +53,11 @@ class QuizGUI:
                 command=self.exit)
         self.close_button.pack(side=tk.RIGHT)
 
-        if not self._quiz_game.quiz:
-            self.end_quiz('')
-            self.root.mainloop()
-
     def open_data_loader(self):
         filename = filedialog.askopenfilename(initialdir=fs_utils.data_dir(),
                 title='Select a valid CSV', filetypes=(('CSV files', '*.csv'),))
-        print(filename)
+        self._quiz_game.load_quiz_entries(filename)
+        self._quiz_game.start_quiz()
     
     def prompt_user(self):
         """Ask the user a quiz question"""
@@ -83,12 +80,22 @@ class QuizGUI:
         self.top_text.set('Quizzing on %s' %
                 self._quiz_game.quiz_name_with_categories())
         self.prompt_text.set(self._quiz_game.entries[0].prompt)
+        self.provide_feedback('')
         self.answer_entry.config(state='normal')
         self.answer_button.config(state='normal')
         self.answer_entry.bind('<Return>', self.submit_answer)
-        self.mainloop_running = True
         self._quiz_game.next_question()
-        self.root.mainloop()
+        self.start_mainloop()
+
+    def start_mainloop(self):
+        if not self.mainloop_running:
+            self.mainloop_running = True
+            self.root.mainloop()
+
+    def stop_mainloop(self):
+        if self.mainloop_running:
+            self.mainloop_running = False
+            self.root.quit()
 
     def end_quiz(self, message):
         """Wait patiently for the user to close the quiz"""
@@ -99,4 +106,4 @@ class QuizGUI:
 
     def exit(self):
         """End the program immediately."""
-        self.root.quit()
+        self.stop_mainloop()

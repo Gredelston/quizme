@@ -59,6 +59,10 @@ class QuizGame(object):
         """
         self.args = args
         self.quiz = args.quiz
+        if self.args.cli:
+            self._interface = cli.QuizCLI(self)
+        else:
+            self._interface = gui.QuizGUI(self)
         if self.quiz:
             self.load_quiz_entries(fs_utils.find_csv(self.quiz))
             self.filter_entries_by_categories(args.categories)
@@ -68,10 +72,10 @@ class QuizGame(object):
             if args.show_data:
                 self.display_entries()
                 sys.exit(0)
-        if self.args.cli:
-            self._interface = cli.QuizCLI(self)
         else:
-            self._interface = gui.QuizGUI(self)
+            if not self.args.cli:
+                self._interface.end_quiz('')
+                self._interface.start_mainloop()
 
     def load_quiz_entries(self, csv_path):
         """Load the quiz CSV into a list of QuizEntry objects."""
