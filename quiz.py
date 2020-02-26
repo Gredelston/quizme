@@ -220,9 +220,10 @@ class QuizGame(object):
 def all_quizzes():
     """Return a list of available quizzes."""
     quizme_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dirs = (
-            os.path.join(quizme_dir, 'data'),
-            os.path.join(quizme_dir, 'data', 'private'))
+    data_dirs = [os.path.join(quizme_dir, 'data')]
+    private_dir = os.path.join(data_dirs[0], 'private')
+    if os.path.isfile(private_dir):
+        data_dirs.append(private_dir)
     quizzes = []
     for data_dir in data_dirs:
         files = os.listdir(data_dir)

@@ -30,6 +30,7 @@ Each data set should be a CSV with the following properties:
 * File should live in the data/ dir, and have the .csv extension.
   * If you want the file to be .gitignore'd, it should instead live in data/private/.
     * If a CSV in data/private shares its name with a CSV in data/, the game will load the private version.
+    * NOTE: These files may not be included in an installed bundle.
 * The first row should be a header containing the following (comma-separated) fieldnames:
   * `prompt`
   * `answer`

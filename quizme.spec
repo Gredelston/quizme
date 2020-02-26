@@ -4,9 +4,9 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['quizme'],
+             pathex=['/home/gredelston/dev/quizme'],
              binaries=[],
-             datas=[('data/*.csv', 'data'), ('data/private/*.csv', 'data/private')],
+             datas=[('data/*.csv', 'data')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
