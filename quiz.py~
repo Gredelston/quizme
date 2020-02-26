@@ -127,10 +127,10 @@ class QuizGame(object):
 
     def start_quiz(self):
         """Start running the quiz, either through CLI or GUI."""
-        if self.args.gui:
-            self._interface = gui.QuizGUI(self)
-        else:
+        if self.args.cli:
             self._interface = cli.QuizCLI(self)
+        else:
+            self._interface = gui.QuizGUI(self)
         self.questions_asked = 0
         self.score = 0
         self.ask_each_question_once = bool(
@@ -194,10 +194,9 @@ class QuizGame(object):
     def end_quiz(self):
         elapsed_time = time.time() - self._start_time
         pct_score = 100 * round(float(self.score) / self.questions_asked, 2)
-        self._interface.provide_feedback(
+        self._interface.end_quiz(
                 "It's over!\nYou scored %d%% in %d seconds." %
                 (pct_score, elapsed_time))
-        self._interface.end_quiz()
 
     def get_prompts_by_answer(self, answer):
         """Build a '; '-delimited string of prompts whose answer is `answer`."""

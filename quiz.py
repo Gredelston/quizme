@@ -127,10 +127,10 @@ class QuizGame(object):
 
     def start_quiz(self):
         """Start running the quiz, either through CLI or GUI."""
-        if self.args.gui:
-            self._interface = gui.QuizGUI(self)
-        else:
+        if self.args.cli:
             self._interface = cli.QuizCLI(self)
+        else:
+            self._interface = gui.QuizGUI(self)
         self.questions_asked = 0
         self.score = 0
         self.ask_each_question_once = bool(

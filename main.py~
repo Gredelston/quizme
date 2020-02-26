@@ -23,8 +23,8 @@ def parse_args():
             help='Ask each question once, randomly shuffled')
     parser.add_argument('--forced-order', action='store_true',
             help='Ask each question once, in order')
-    parser.add_argument('--cli', action='store_true',
-            help='Use the CLI instead of the GUI')
+    parser.add_argument('--gui', action='store_true',
+            help='Use the GUI (work-in-progress)')
     return parser.parse_args(sys.argv[1:])
 
 def main():
