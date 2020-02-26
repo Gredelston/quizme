@@ -49,6 +49,11 @@ class QuizGUI:
                 text='Load data set', command=self.open_data_loader)
         self.load_button.pack(side=tk.LEFT)
 
+        self.filter_button = tk.Button(self.meta_buttons_frame,
+                text='Filter categories',
+                command=self.open_categories_filter_dialog)
+        self.filter_button.pack(side=tk.LEFT)
+
         self.close_button = tk.Button(self.meta_buttons_frame, text='Close',
                 command=self.exit)
         self.close_button.pack(side=tk.RIGHT)
@@ -58,6 +63,9 @@ class QuizGUI:
                 title='Select a valid CSV', filetypes=(('CSV files', '*.csv'),))
         self._quiz_game.load_quiz_entries(filename)
         self._quiz_game.start_quiz()
+
+    def open_categories_filter_dialog(self):
+        pass
     
     def prompt_user(self):
         """Ask the user a quiz question"""
