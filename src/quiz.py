@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import copy
 import csv
 import os
 import random
@@ -93,10 +94,12 @@ class QuizGame(object):
                     sys.exit(1)
                 entry = QuizEntry(prompt, answer, categories, other_answers)
                 self.entries.append(entry)
+        self._all_entries = copy.copy(self.entries)
         self.quiz = os.path.splitext(os.path.basename(csv_path))[0]
 
     def filter_entries_by_categories(self, cats):
-        """Return a list of entries that contain the given categories."""
+        """Filter self.entries to only contain entries with the given categories."""
+        self.entries = copy.copy(self._all_entries)
         if not cats:
             return
         cats = [cat.lower() for cat in cats]
@@ -113,7 +116,7 @@ class QuizGame(object):
     def all_categories(self):
         """Return a list of categories in this quiz."""
         categories = []
-        for entry in self.entries:
+        for entry in self._all_entries:
             for category in entry.categories:
                 if category.lower() not in categories:
                     categories.append(category.lower())

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
 import tkinter as tk
 from tkinter import filedialog
 
@@ -67,9 +68,6 @@ class QuizGUI:
                 title='Select a valid CSV', filetypes=(('CSV files', '*.csv'),))
         self._quiz_game.load_quiz_entries(filename)
         self._quiz_game.start_quiz()
-
-    def open_categories_filter_dialog(self):
-        pass
     
     def prompt_user(self):
         """Ask the user a quiz question"""
@@ -87,12 +85,15 @@ class QuizGUI:
         self.answer_entry.delete(0, 'end')
         self._quiz_game.process_input(answer)
 
-    def start_quiz(self):
+    def start_quiz(self, reset_filters=True):
         """Start the quiz, and wait for user input"""
         self.top_text.set('Quizzing on %s' %
                 self._quiz_game.quiz_name_with_categories())
         self.prompt_text.set(self._quiz_game.entries[0].prompt)
-        self._set_category_filter_checkbuttons()
+        self._quiz_game.score = 0
+        self._quiz_game.questions_asked = 0
+        if reset_filters:
+            self._set_category_filter_checkbuttons()
         self.provide_feedback('')
         self.answer_entry.config(state='normal')
         self.answer_button.config(state='normal')
@@ -104,10 +105,22 @@ class QuizGUI:
         for checkbutton in self.category_filters_checkbuttons.values():
             checkbutton.destroy()
         self.category_filters_checkbuttons = {}
+        self.category_filters_checkbutton_vars = {}
         for cat in sorted(self._quiz_game.all_categories()):
+            self.category_filters_checkbutton_vars[cat] = tk.IntVar()
             self.category_filters_checkbuttons[cat] = tk.Checkbutton(
-                    self.category_filters_frame, text=cat)
+                    self.category_filters_frame, text=cat,
+                    variable=self.category_filters_checkbutton_vars[cat],
+                    command=self._refilter_categories)
             self.category_filters_checkbuttons[cat].pack(side=tk.TOP)
+
+    def _refilter_categories(self):
+        my_cats = []
+        for cat in self.category_filters_checkbuttons:
+            if self.category_filters_checkbutton_vars[cat].get():
+                my_cats.append(cat)
+        self._quiz_game.filter_entries_by_categories(my_cats)
+        self.start_quiz(reset_filters=False)
 
     def start_mainloop(self):
         if not self.mainloop_running:
