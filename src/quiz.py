@@ -60,7 +60,7 @@ class QuizGame(object):
         self.args = args
         self.quiz = args.quiz
         if self.quiz:
-            self.load_quiz_entries()
+            self.load_quiz_entries(fs_utils.find_csv(self.quiz))
             self.filter_entries_by_categories(args.categories)
             if args.show_categories:
                 self.display_categories()
@@ -73,13 +73,8 @@ class QuizGame(object):
         else:
             self._interface = gui.QuizGUI(self)
 
-    def load_quiz_entries(self):
+    def load_quiz_entries(self, csv_path):
         """Load the quiz CSV into a list of QuizEntry objects."""
-        csv_basename = '%s.csv' % self.quiz
-        if os.path.isfile(fs_utils.data_filepath(csv_basename, True)):
-            csv_path = fs_utils.data_filepath(csv_basename, True)
-        else:
-            csv_path = fs_utils.data_filepath(csv_basename)
         with open(csv_path)as csvfile:
             quizreader = csv.DictReader(csvfile)
             self.entries = []
