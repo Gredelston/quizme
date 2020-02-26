@@ -39,9 +39,16 @@ class QuizGUI:
                 textvariable=self.feedback_text)
         self.feedback_label.pack()
 
-        self.close_button = tk.Button(self.root, text='Close',
+        self.meta_buttons_frame = tk.Frame(self.root)
+        self.meta_buttons_frame.pack()
+
+        self.load_button = tk.Button(self.meta_buttons_frame,
+                text='Load data set', command=self.open_data_loader)
+        self.load_button.pack(side=tk.LEFT)
+
+        self.close_button = tk.Button(self.meta_buttons_frame, text='Close',
                 command=self.exit)
-        self.close_button.pack()
+        self.close_button.pack(side=tk.RIGHT)
 
         if not self._quiz_game.quiz:
             self.end_quiz('')
