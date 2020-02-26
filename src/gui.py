@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import tkinter as tk
+from tkinter import filedialog
 
 class QuizGUI:
     """Graphical user interface to the quiz."""
@@ -55,7 +56,9 @@ class QuizGUI:
             self.root.mainloop()
 
     def open_data_loader(self):
-        pass
+        filename = filedialog.askopenfilename(initialdir='./data/',
+                title='Select a valid CSV', filetypes=(('CSV files', '*.csv'),))
+        print(filename)
     
     def prompt_user(self):
         """Ask the user a quiz question"""

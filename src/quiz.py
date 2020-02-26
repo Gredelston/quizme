@@ -10,6 +10,7 @@ import time
 
 import cli
 import gui
+import fs_utils
 
 
 class QuizEntry(object):
@@ -74,13 +75,11 @@ class QuizGame(object):
 
     def load_quiz_entries(self):
         """Load the quiz CSV into a list of QuizEntry objects."""
-        quizme_dir = os.path.dirname(os.path.abspath(__file__))
-        data_dir = os.path.join(quizme_dir, 'data')
         csv_basename = '%s.csv' % self.quiz
-        if os.path.isfile(os.path.join(data_dir, 'private', csv_basename)):
-            csv_path = os.path.join(data_dir, 'private', csv_basename)
+        if os.path.isfile(fs_utils.data_filepath(csv_basename, True)):
+            csv_path = fs_utils.data_filepath(csv_basename, True)
         else:
-            csv_path = os.path.join(data_dir, csv_basename)
+            csv_path = fs_utils.data_filepath(csv_basename)
         with open(csv_path)as csvfile:
             quizreader = csv.DictReader(csvfile)
             self.entries = []
@@ -220,10 +219,9 @@ class QuizGame(object):
 
 def all_quizzes():
     """Return a list of available quizzes."""
-    quizme_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dirs = [os.path.join(quizme_dir, 'data')]
-    private_dir = os.path.join(data_dirs[0], 'private')
-    if os.path.isfile(private_dir):
+    data_dirs = [fs_utils.data_dir()]
+    private_dir = fs_utils.data_dir(True)
+    if os.path.isdir(private_dir):
         data_dirs.append(private_dir)
     quizzes = []
     for data_dir in data_dirs:
