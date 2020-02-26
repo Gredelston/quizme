@@ -79,7 +79,7 @@ class QuizGame(object):
 
     def load_quiz_entries(self, csv_path):
         """Load the quiz CSV into a list of QuizEntry objects."""
-        with open(csv_path)as csvfile:
+        with open(csv_path) as csvfile:
             quizreader = csv.DictReader(csvfile)
             self.entries = []
             for row in quizreader:
@@ -93,6 +93,7 @@ class QuizGame(object):
                     sys.exit(1)
                 entry = QuizEntry(prompt, answer, categories, other_answers)
                 self.entries.append(entry)
+        self.quiz = os.path.splitext(os.path.basename(csv_path))[0]
 
     def filter_entries_by_categories(self, cats):
         """Return a list of entries that contain the given categories."""
