@@ -49,14 +49,18 @@ class QuizGUI:
                 text='Load data set', command=self.open_data_loader)
         self.load_button.pack(side=tk.LEFT)
 
-        self.filter_button = tk.Button(self.meta_buttons_frame,
-                text='Filter categories',
-                command=self.open_categories_filter_dialog)
-        self.filter_button.pack(side=tk.LEFT)
-
         self.close_button = tk.Button(self.meta_buttons_frame, text='Close',
                 command=self.exit)
         self.close_button.pack(side=tk.RIGHT)
+
+        self.category_filters_frame = tk.Frame(self.root)
+        self.category_filters_frame.pack(side=tk.LEFT)
+
+        self.category_filters_label = tk.Label(self.category_filters_frame,
+                text='Category filters')
+        self.category_filters_label.pack(side=tk.TOP)
+
+        self.category_filters_checkbuttons = {}
 
     def open_data_loader(self):
         filename = filedialog.askopenfilename(initialdir=fs_utils.data_dir(),
@@ -88,12 +92,22 @@ class QuizGUI:
         self.top_text.set('Quizzing on %s' %
                 self._quiz_game.quiz_name_with_categories())
         self.prompt_text.set(self._quiz_game.entries[0].prompt)
+        self._set_category_filter_checkbuttons()
         self.provide_feedback('')
         self.answer_entry.config(state='normal')
         self.answer_button.config(state='normal')
         self.answer_entry.bind('<Return>', self.submit_answer)
         self._quiz_game.next_question()
         self.start_mainloop()
+
+    def _set_category_filter_checkbuttons(self):
+        for checkbutton in self.category_filters_checkbuttons.values():
+            checkbutton.destroy()
+        self.category_filters_checkbuttons = {}
+        for cat in sorted(self._quiz_game.all_categories()):
+            self.category_filters_checkbuttons[cat] = tk.Checkbutton(
+                    self.category_filters_frame, text=cat)
+            self.category_filters_checkbuttons[cat].pack(side=tk.TOP)
 
     def start_mainloop(self):
         if not self.mainloop_running:
