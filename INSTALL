@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-pyinstaller src/main.py --name quizme --add-data data/*.csv:data -F
+pyinstaller src/main.py --name quizme --add-data data/*.csv:data -F -y
