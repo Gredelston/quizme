@@ -194,9 +194,10 @@ class QuizGame(object):
     def end_quiz(self):
         elapsed_time = time.time() - self._start_time
         pct_score = 100 * round(float(self.score) / self.questions_asked, 2)
-        self._interface.end_quiz(
+        self._interface.provide_feedback(
                 "It's over!\nYou scored %d%% in %d seconds." %
                 (pct_score, elapsed_time))
+        self._interface.end_quiz()
 
     def get_prompts_by_answer(self, answer):
         """Build a '; '-delimited string of prompts whose answer is `answer`."""

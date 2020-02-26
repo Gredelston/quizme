@@ -41,9 +41,9 @@ class QuizCLI(object):
         """Provide feedback to the user."""
         print(message + '\n')
 
-    def end_quiz(self, message):
+    def end_quiz(self):
         """Process the end of the quiz."""
-        print(message)
+        pass
 
     def exit(self, return_code=0):
         """Quit the program immediately."""
