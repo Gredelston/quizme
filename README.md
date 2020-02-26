@@ -28,6 +28,8 @@ To display a list of categories for the best-picture quiz:
 Each data set should be a CSV with the following properties:
 
 * File should live in the data/ dir, and have the .csv extension.
+  * If you want the file to be .gitignore'd, it should instead live in data/private/.
+    * If a CSV in data/private shares its name with a CSV in data/, the game will load the private version.
 * The first row should be a header containing the following (comma-separated) fieldnames:
   * `prompt`
   * `answer`
