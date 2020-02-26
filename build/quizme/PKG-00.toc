@@ -31,7 +31,7 @@
   ('pyi_rth__tkinter',
    '/home/gredelston/.local/lib/python3.7/site-packages/PyInstaller/loader/rthooks/pyi_rth__tkinter.py',
    'PYSOURCE'),
-  ('main', '/home/gredelston/dev/quizme/main.py', 'PYSOURCE')],
+  ('main', '/home/gredelston/dev/quizme/src/main.py', 'PYSOURCE')],
  True,
  False,
  False,

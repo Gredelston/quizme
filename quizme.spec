@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['main.py'],
+a = Analysis(['src/main.py'],
              pathex=['/home/gredelston/dev/quizme'],
              binaries=[],
              datas=[('data/*.csv', 'data')],

@@ -34,11 +34,11 @@
   ('pyi_rth__tkinter',
    '/home/gredelston/.local/lib/python3.7/site-packages/PyInstaller/loader/rthooks/pyi_rth__tkinter.py',
    'PYSOURCE'),
-  ('main', '/home/gredelston/dev/quizme/main.py', 'PYSOURCE')],
+  ('main', '/home/gredelston/dev/quizme/src/main.py', 'PYSOURCE')],
  [],
  False,
  False,
- 1582684817,
+ 1582685031,
  [('run',
    '/home/gredelston/.local/lib/python3.7/site-packages/PyInstaller/bootloader/Linux-64bit/run',
    'EXECUTABLE')])
