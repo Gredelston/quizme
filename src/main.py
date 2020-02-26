@@ -31,7 +31,7 @@ def main():
     """Main program function."""
     args = parse_args()
     quiz_game = quiz.QuizGame(args)
-    if quiz_game.quiz:
+    if args.quiz:
         quiz_game.start_quiz()
 
 if __name__ == '__main__':
